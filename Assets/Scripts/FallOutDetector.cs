@@ -8,6 +8,7 @@ public class FallOutDetector : MonoBehaviour {
     private Vector3 respawnLocation;
 
     void OnTriggerExit(Collider other) {
+        other.attachedRigidbody.Sleep();
         other.transform.position = respawnLocation;
 	}
 }
