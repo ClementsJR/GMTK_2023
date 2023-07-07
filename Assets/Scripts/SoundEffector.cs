@@ -12,8 +12,10 @@ public class SoundEffector : MonoBehaviour {
 
     public void PlaySoundEffect() {
         int randomClipIndex = Random.Range(0, clips.Length);
+
         if (audioPlayer.isPlaying)
             return;
+
         audioPlayer.clip = clips[randomClipIndex];
         audioPlayer.Play();
 	}
