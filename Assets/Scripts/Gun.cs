@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Gun : MonoBehaviour {
 
@@ -8,16 +9,36 @@ public class Gun : MonoBehaviour {
     private Rigidbody body;
     [SerializeField]
     private Transform muzzle;
+
     [SerializeField]
     private float fireForce = 1000f;
-
     [SerializeField]
-    SoundEffector gunshotEffect;
+    private int ammunition = 20;
 
-    void Update() {
+    [SerializeField] SoundEffector gunshotEffect;
+    [SerializeField] SoundEffector noAmmoEffect;
+    [SerializeField] TextMeshProUGUI ammoDisplay;
+
+	private void Start() {
+        UpdateAmmoDisplay();
+	}
+
+	void Update() {
         if(Input.GetButtonDown("Jump")) {
-            body.AddForceAtPosition(transform.forward * fireForce, muzzle.position);
-            gunshotEffect.PlaySoundEffect();
+            if(ammunition > 0) {
+                body.AddForceAtPosition(transform.forward * fireForce, muzzle.position);
+                gunshotEffect.Play();
+
+                ammunition--;
+                UpdateAmmoDisplay();
+            } else {
+                Debug.Log("No Ammo");
+                //noAmmoEffect.Play();
+			}
 		}
     }
+
+    void UpdateAmmoDisplay() {
+        ammoDisplay.text = "Ammo: " + ammunition;
+	}
 }
