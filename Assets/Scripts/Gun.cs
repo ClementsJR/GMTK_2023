@@ -12,13 +12,12 @@ public class Gun : MonoBehaviour {
     private float fireForce = 1000f;
 
     [SerializeField]
-    SoundEffector gunshot;
+    SoundEffector gunshotEffect;
 
     void Update() {
         if(Input.GetButtonDown("Jump")) {
-            //body.AddForce(transform.forward * fireForce);
             body.AddForceAtPosition(transform.forward * fireForce, muzzle.position);
-            gunshot.PlaySoundEffect();
+            gunshotEffect.PlaySoundEffect();
 		}
     }
 }
