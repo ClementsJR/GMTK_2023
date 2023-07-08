@@ -3,32 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerController : MonoBehaviour {
-    [Header("Movement")]
-    [SerializeField][Range(0f, 5f)]
-    float lookSpeed = 3f;
-    [SerializeField][Range(0f, 50f)]
-    float moveSpeed = 10f;
-    [SerializeField][Range(0f, 5000f)]
-    float jumpForce = 1000f;
-    [SerializeField]
-    Transform feet;
-    [SerializeField][Range(0f, 1f)]
-    float groundedMaxDistance = 0.25f;
-    [SerializeField]
-    Rigidbody physicsBody;
-
-    [Header("Gun")]
-    [SerializeField]
-    Weapon gun;
-
-    [Header("Sound")]
-    [SerializeField]
-    SoundEffector gunSoundEffects;
-
-    [Header("Spawning")]
-    [SerializeField]
-    PlayerSpawnHandler spawnHandler;
+public class PlayerController : GenericController {
 
     /*[Header("Debug")]
     [SerializeField]
@@ -53,7 +28,7 @@ public class PlayerController : MonoBehaviour {
         UpdateLook();
         onGround = CheckIfGrounded();
 
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") && gun.CanFire()) {
             HandleFire();
 		}
 
@@ -62,7 +37,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Backspace)) {
-            Respawn();
+           healthSystem.Respawn();
 		}
     }
 
@@ -94,17 +69,7 @@ public class PlayerController : MonoBehaviour {
         onGround = false;
     }
 
-    private bool CheckIfGrounded() {
-        return (Physics.Raycast(feet.position, Vector3.down, out RaycastHit hit, groundedMaxDistance));
-	}
-
 	void HandleFire() {
-        gunSoundEffects.Play();
         gun.Fire(camera.forward);
 	}
-
-    void Respawn() {
-        spawnHandler.enabled = true;
-        this.enabled = false;
-    }
 }

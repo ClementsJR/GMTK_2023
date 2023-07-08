@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawnHandler : MonoBehaviour {
+public class SpawnHandler : MonoBehaviour {
 
     [SerializeField]
     float spawnTime = 2f;
     [SerializeField]
-    PlayerController player;
+    GenericController controller;
     [SerializeField]
-    Transform waitArea;
+    HealthSystem health;
     [SerializeField]
     Spawner spawner;
 
@@ -24,7 +24,7 @@ public class PlayerSpawnHandler : MonoBehaviour {
             timeToSpawn = spawnTime;
         }
         
-        player.transform.position = waitArea.position;
+        controller.transform.position = spawner.GetWaitLocation();
     }
 
     void Update() {
@@ -32,11 +32,11 @@ public class PlayerSpawnHandler : MonoBehaviour {
 
         if (timeToSpawn <= 0f) {
             Vector3 spawnLocation = spawner.GetSpawnLocation();
-            player.transform.position = spawnLocation;
-            player.enabled = true;
+            transform.position = spawnLocation;
+
+            health.enabled = true;
+            controller.enabled = true;
             this.enabled = false;
 		}
     }
-
-	
 }
