@@ -32,9 +32,12 @@ public class PlayerController : MonoBehaviour {
         camera = Camera.main.transform;
 	}
 
+	private void FixedUpdate() {
+        UpdateMovement();
+	}
+
 	void Update() {
         UpdateLook();
-        UpdateMovement();
 
         if (Input.GetButtonDown("Jump")) {
             HandleJump();
@@ -57,11 +60,12 @@ public class PlayerController : MonoBehaviour {
     void UpdateMovement() {
         if (!onGround) return;
 
-        Vector3 fwdMovement = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * Vector3.forward;
-        Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime * Vector3.right;
+        Vector3 fwdMovement = Input.GetAxis("Vertical") * moveSpeed * Time.fixedDeltaTime * Vector3.forward;
+        Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.fixedDeltaTime * Vector3.right;
         Vector3 movement = fwdMovement + sideMovement;
 
-        transform.Translate(movement, Space.Self);
+
+        physicsBody.MovePosition(transform.position + transform.TransformDirection(movement));
     }
 
     void HandleJump() {
