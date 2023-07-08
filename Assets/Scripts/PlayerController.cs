@@ -13,17 +13,29 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     Rigidbody physicsBody;
 
+    [SerializeField]
+    SoundEffector gunSoundEffects;
+
     private Vector2 rotation;
+    private bool onGround;
 
 	private void Start() {
         Cursor.lockState = CursorLockMode.Locked;
         rotation = Vector2.zero;
+        onGround = true;
 	}
 
 	void Update() {
         UpdateLook();
         UpdateMovement();
-        //UpdateJump();
+
+        if (Input.GetButtonDown("Jump")) {
+            HandleJump();
+        }
+
+        if (Input.GetButtonDown("Fire1")) {
+            HandleFire();
+		}
     }
 
     void UpdateLook() {
@@ -38,6 +50,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     void UpdateMovement() {
+        if (!onGround) return;
+
         Vector3 fwdMovement = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime * Vector3.forward;
         Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime * Vector3.right;
         Vector3 movement = fwdMovement + sideMovement;
@@ -45,9 +59,19 @@ public class PlayerController : MonoBehaviour {
         transform.Translate(movement,Space.Self);
     }
 
-    void UpdateJump() {
-        if (Input.GetButtonDown("Jump")) {
-            physicsBody.AddForce(transform.up * jumpForce);
-        }
+    void HandleJump() {
+        if (!onGround) return;
+
+        Vector3 jump = (Vector3.up + (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"))).normalized * jumpForce;
+        physicsBody.AddForce(jump);
+        onGround = false;
     }
+
+	private void OnTriggerEnter(Collider other) {
+        onGround = true;
+	}
+
+	void HandleFire() {
+        gunSoundEffects.Play();
+	}
 }
