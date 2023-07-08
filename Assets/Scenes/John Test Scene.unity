@@ -454,7 +454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &304974390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &316294563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: 419276796}
   - component: {fileID: 419276795}
   - component: {fileID: 419276794}
+  - component: {fileID: 419276800}
   m_Layer: 6
   m_Name: NPC (2)
   m_TagString: Untagged
@@ -726,7 +727,8 @@ MonoBehaviour:
   turnSpeed: 3
   jumpForce: 1000
   physicsBody: {fileID: 419276795}
-  gun: {fileID: 0}
+  gun: {fileID: 419276800}
+  fireRate: 0.3
 --- !u!54 &419276795
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -841,6 +843,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &419276800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419276793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37244ddbf9ad5154cb48e3814a27a1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzle: {fileID: 419276799}
+  bulletForce: 250
 --- !u!1 &419403099
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,8 +987,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 304974390}
   - {fileID: 858164313}
+  - {fileID: 304974390}
   - {fileID: 316294563}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1101,6 +1117,7 @@ GameObject:
   - component: {fileID: 585884893}
   - component: {fileID: 585884892}
   - component: {fileID: 585884894}
+  - component: {fileID: 585884895}
   m_Layer: 6
   m_Name: NPC
   m_TagString: Untagged
@@ -1242,7 +1259,22 @@ MonoBehaviour:
   turnSpeed: 3
   jumpForce: 1000
   physicsBody: {fileID: 585884892}
-  gun: {fileID: 0}
+  gun: {fileID: 585884895}
+  fireRate: 0.3
+--- !u!114 &585884895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585884887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37244ddbf9ad5154cb48e3814a27a1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzle: {fileID: 585884888}
+  bulletForce: 250
 --- !u!1 &637700540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1424,7 @@ GameObject:
   - component: {fileID: 656154458}
   - component: {fileID: 656154457}
   - component: {fileID: 656154456}
+  - component: {fileID: 656154462}
   m_Layer: 6
   m_Name: NPC (1)
   m_TagString: Untagged
@@ -1419,7 +1452,8 @@ MonoBehaviour:
   turnSpeed: 3
   jumpForce: 1000
   physicsBody: {fileID: 656154457}
-  gun: {fileID: 0}
+  gun: {fileID: 656154462}
+  fireRate: 0.3
 --- !u!54 &656154457
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1534,6 +1568,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &656154462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656154455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37244ddbf9ad5154cb48e3814a27a1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzle: {fileID: 656154461}
+  bulletForce: 250
 --- !u!1 &726103091
 GameObject:
   m_ObjectHideFlags: 0

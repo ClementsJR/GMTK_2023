@@ -20,9 +20,13 @@ public class BotController : MonoBehaviour {
     [Header("Weapon")]
     [SerializeField]
     Weapon gun;
+    [SerializeField][Range(0f, 1f)]
+    float fireRate = 0.3f;
+    float lastFireTime;
 
 	private void Start() {
         currentTarget = opponents[0];
+        lastFireTime = 0f;
 	}
 
 	private void FixedUpdate() {
@@ -33,9 +37,11 @@ public class BotController : MonoBehaviour {
 
 	void Update() {
         currentTarget = AcquireTarget();
+        FaceTarget();
 
-        float angleTo = Vector3.SignedAngle(transform.position, currentTarget.position, Vector3.up);
-        if (angleTo > 0.25f) FaceTarget(angleTo);
+        lastFireTime += Time.deltaTime;
+        if(lastFireTime > fireRate)
+            CheckFire();
     }
 
     Transform AcquireTarget() {
@@ -57,9 +63,10 @@ public class BotController : MonoBehaviour {
         return target;
 	}
 
-    void FaceTarget(float angle) {
-        float rotation = Mathf.Sign(angle) * turnSpeed * Time.deltaTime;
-        transform.eulerAngles += Vector3.up * rotation;
+    void FaceTarget() {
+        Quaternion rotation = Quaternion.LookRotation(currentTarget.position - transform.position);
+        rotation.eulerAngles = new Vector3(0f, rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
     }
 
     void ApproachTarget() {
@@ -72,5 +79,16 @@ public class BotController : MonoBehaviour {
         Vector3 movement = -Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
         movement = transform.TransformDirection(movement);
         physicsBody.velocity = movement;
+    }
+
+    void CheckFire() {
+        Vector3 targetDir = transform.forward;
+        bool targetVisible = Physics.Raycast(transform.position, targetDir, out RaycastHit hit);
+        Debug.DrawRay(transform.position, targetDir);
+
+        if (targetVisible && hit.distance < 40f && hit.collider.transform == currentTarget) {
+            gun.Fire(targetDir);
+            lastFireTime = 0f;
+        }
     }
 }
