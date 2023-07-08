@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField][Range(0f, 5000f)]
     float jumpForce = 1000f;
     [SerializeField]
+    Transform feet;
+    [SerializeField][Range(0f, 1f)]
+    float groundedMaxDistance = 0.25f;
+    [SerializeField]
     Rigidbody physicsBody;
 
     [Header("Gun")]
@@ -21,6 +25,10 @@ public class PlayerController : MonoBehaviour {
     [Header("Sound")]
     [SerializeField]
     SoundEffector gunSoundEffects;
+
+    [Header("Spawning")]
+    [SerializeField]
+    PlayerSpawnHandler spawnHandler;
 
     /*[Header("Debug")]
     [SerializeField]
@@ -43,6 +51,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Update() {
         UpdateLook();
+        onGround = CheckIfGrounded();
 
         if (Input.GetButtonDown("Fire1")) {
             HandleFire();
@@ -51,6 +60,10 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown("Jump")) {
             HandleJump();
         }
+
+        if (Input.GetKeyDown(KeyCode.Backspace)) {
+            Respawn();
+		}
     }
 
     void UpdateLook() {
@@ -69,6 +82,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Vector3.right;
         Vector3 movement = fwdMovement + sideMovement;
         movement = transform.TransformDirection(movement);
+        movement.y = physicsBody.velocity.y;
         physicsBody.velocity = movement;
     }
 
@@ -80,12 +94,17 @@ public class PlayerController : MonoBehaviour {
         onGround = false;
     }
 
-	private void OnTriggerEnter(Collider other) {
-        onGround = true;
-    }
+    private bool CheckIfGrounded() {
+        return (Physics.Raycast(feet.position, Vector3.down, out RaycastHit hit, groundedMaxDistance));
+	}
 
 	void HandleFire() {
         gunSoundEffects.Play();
         gun.Fire(camera.forward);
 	}
+
+    void Respawn() {
+        spawnHandler.enabled = true;
+        this.enabled = false;
+    }
 }

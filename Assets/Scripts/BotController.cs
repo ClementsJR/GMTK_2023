@@ -12,8 +12,8 @@ public class BotController : MonoBehaviour {
     float moveSpeed = 10f;
     [SerializeField][Range(0f,5f)]
     float turnSpeed = 3f;
-    [SerializeField][Range(0f, 5000f)]
-    float jumpForce = 1000f;
+    /*[SerializeField][Range(0f, 5000f)]
+    float jumpForce = 1000f;*/
     [SerializeField]
     Rigidbody physicsBody;
 
@@ -22,6 +22,8 @@ public class BotController : MonoBehaviour {
     Weapon gun;
     [SerializeField][Range(0f, 1f)]
     float fireRate = 0.3f;
+    [SerializeField][Range(0f, 500f)]
+    float maxFireDistance = 100f;
     float lastFireTime;
 
 	private void Start() {
@@ -72,12 +74,14 @@ public class BotController : MonoBehaviour {
     void ApproachTarget() {
         Vector3 movement = Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
         movement = transform.TransformDirection(movement);
+        movement.y = physicsBody.velocity.y;
         physicsBody.velocity = movement;
     }
 
     void PullAwayFromTarget() {
         Vector3 movement = -Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
         movement = transform.TransformDirection(movement);
+        movement.y = physicsBody.velocity.y;
         physicsBody.velocity = movement;
     }
 
@@ -86,7 +90,7 @@ public class BotController : MonoBehaviour {
         bool targetVisible = Physics.Raycast(transform.position, targetDir, out RaycastHit hit);
         Debug.DrawRay(transform.position, targetDir);
 
-        if (targetVisible && hit.distance < 40f && hit.collider.transform == currentTarget) {
+        if (targetVisible && hit.distance < maxFireDistance && hit.collider.transform == currentTarget) {
             gun.Fire(targetDir);
             lastFireTime = 0f;
         }
