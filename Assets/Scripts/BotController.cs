@@ -2,33 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BotController : MonoBehaviour {
+public class BotController : GenericController {
+    
+    [Header("Bot Options")]
     [SerializeField]
     Transform[] opponents;
-    Transform currentTarget;
-
-    [Header("Movement")]
-    [SerializeField][Range(0f, 50f)]
-    float moveSpeed = 10f;
-    [SerializeField][Range(0f,5f)]
-    float turnSpeed = 3f;
-    /*[SerializeField][Range(0f, 5000f)]
-    float jumpForce = 1000f;*/
-    [SerializeField]
-    Rigidbody physicsBody;
-
-    [Header("Weapon")]
-    [SerializeField]
-    Weapon gun;
-    [SerializeField][Range(0f, 1f)]
-    float fireRate = 0.3f;
     [SerializeField][Range(0f, 500f)]
     float maxFireDistance = 100f;
-    float lastFireTime;
 
-	private void Start() {
+    Transform currentTarget;
+
+    private void Start() {
         currentTarget = opponents[0];
-        lastFireTime = 0f;
 	}
 
 	private void FixedUpdate() {
@@ -40,9 +25,7 @@ public class BotController : MonoBehaviour {
 	void Update() {
         currentTarget = AcquireTarget();
         FaceTarget();
-
-        lastFireTime += Time.deltaTime;
-        if(lastFireTime > fireRate)
+        if (gun.CanFire())
             CheckFire();
     }
 
@@ -68,7 +51,7 @@ public class BotController : MonoBehaviour {
     void FaceTarget() {
         Quaternion rotation = Quaternion.LookRotation(currentTarget.position - transform.position);
         rotation.eulerAngles = new Vector3(0f, rotation.eulerAngles.y, 0f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * lookSpeed);
     }
 
     void ApproachTarget() {
@@ -88,11 +71,10 @@ public class BotController : MonoBehaviour {
     void CheckFire() {
         Vector3 targetDir = transform.forward;
         bool targetVisible = Physics.Raycast(transform.position, targetDir, out RaycastHit hit);
-        Debug.DrawRay(transform.position, targetDir);
+        //Debug.DrawRay(transform.position, targetDir);
 
         if (targetVisible && hit.distance < maxFireDistance && hit.collider.transform == currentTarget) {
             gun.Fire(targetDir);
-            lastFireTime = 0f;
         }
     }
 }

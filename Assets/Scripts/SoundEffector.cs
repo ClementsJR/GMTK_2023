@@ -8,8 +8,6 @@ public class SoundEffector : MonoBehaviour {
     [SerializeField]
     private AudioClip[] clips;
 
-    private bool isPlayingSound;
-
     public void Play() {
         int randomClipIndex = Random.Range(0, clips.Length);
 
