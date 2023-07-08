@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
+    [Header("Movement")]
     [SerializeField][Range(0f, 5f)]
     float lookSpeed = 3f;
     [SerializeField][Range(0f, 50f)]
@@ -12,9 +12,12 @@ public class PlayerController : MonoBehaviour {
     float jumpForce = 1000f;
     [SerializeField]
     Rigidbody physicsBody;
-    [SerializeField]
-    Transform muzzle;
 
+    [Header("Gun")]
+    [SerializeField]
+    Weapon gun;
+
+    [Header("Sound")]
     [SerializeField]
     SoundEffector gunSoundEffects;
 
@@ -45,7 +48,7 @@ public class PlayerController : MonoBehaviour {
     void UpdateLook() {
         rotation.y += Input.GetAxis("Mouse X");
         rotation.x += -Input.GetAxis("Mouse Y");
-        rotation.x = Mathf.Clamp(rotation.x, -15f, 15f);
+        rotation.x = Mathf.Clamp(rotation.x, -20f, 20f);
 
         transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed;
         camera.localRotation = Quaternion.Euler(rotation.x * lookSpeed, 0, 0);
@@ -58,7 +61,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime * Vector3.right;
         Vector3 movement = fwdMovement + sideMovement;
 
-        transform.Translate(movement,Space.Self);
+        transform.Translate(movement, Space.Self);
     }
 
     void HandleJump() {
@@ -75,16 +78,6 @@ public class PlayerController : MonoBehaviour {
 
 	void HandleFire() {
         gunSoundEffects.Play();
-
-        Color lineColor = Color.red;
-        if (Physics.Raycast(muzzle.position, camera.forward, out RaycastHit hit)) {
-            if(hit.rigidbody != null) {
-                hit.rigidbody.AddForceAtPosition(camera.forward * 100f, hit.point);
-                lineColor = Color.green;
-            }
-            Debug.DrawLine(muzzle.position, hit.point, lineColor, 2f);
-        } else {
-            Debug.DrawRay(muzzle.position, camera.forward * 100f, Color.white, 2f);
-        }
+        gun.Fire(camera.forward);
 	}
 }
