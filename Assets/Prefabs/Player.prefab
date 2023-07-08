@@ -126,7 +126,7 @@ MonoBehaviour:
   moveSpeed: 10
   jumpForce: 1000
   physicsBody: {fileID: 6173272670897562668}
-  muzzle: {fileID: 6064041983343170135}
+  gun: {fileID: 9060294248043521931}
   gunSoundEffects: {fileID: 1118564555692848823}
 --- !u!1 &4529461005801753383
 GameObject:
@@ -229,8 +229,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6064041983343170135}
+  - component: {fileID: 9060294248043521931}
   m_Layer: 0
-  m_Name: Muzzle
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,6 +252,20 @@ Transform:
   m_Father: {fileID: 1286161246990978498}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9060294248043521931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868494044018024351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37244ddbf9ad5154cb48e3814a27a1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzle: {fileID: 6064041983343170135}
+  bulletForce: 250
 --- !u!1 &6876743783516484483
 GameObject:
   m_ObjectHideFlags: 0
