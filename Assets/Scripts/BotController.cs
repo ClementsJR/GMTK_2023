@@ -12,8 +12,8 @@ public class BotController : MonoBehaviour {
     float moveSpeed = 10f;
     [SerializeField][Range(0f,5f)]
     float turnSpeed = 3f;
-    [SerializeField][Range(0f, 5000f)]
-    float jumpForce = 1000f;
+    /*[SerializeField][Range(0f, 5000f)]
+    float jumpForce = 1000f;*/
     [SerializeField]
     Rigidbody physicsBody;
 

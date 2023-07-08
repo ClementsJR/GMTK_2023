@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     Transform feet;
     [SerializeField][Range(0f, 1f)]
-    float groundedMaxDistance = 0.1f;
+    float groundedMaxDistance = 0.25f;
     [SerializeField]
     Rigidbody physicsBody;
 
@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour {
     [Header("Sound")]
     [SerializeField]
     SoundEffector gunSoundEffects;
+
+    [Header("Spawning")]
+    [SerializeField]
+    PlayerSpawnHandler spawnHandler;
 
     /*[Header("Debug")]
     [SerializeField]
@@ -56,6 +60,10 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown("Jump")) {
             HandleJump();
         }
+
+        if (Input.GetKeyDown(KeyCode.Backspace)) {
+            Respawn();
+		}
     }
 
     void UpdateLook() {
@@ -94,4 +102,9 @@ public class PlayerController : MonoBehaviour {
         gunSoundEffects.Play();
         gun.Fire(camera.forward);
 	}
+
+    void Respawn() {
+        spawnHandler.enabled = true;
+        this.enabled = false;
+    }
 }

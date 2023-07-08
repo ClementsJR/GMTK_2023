@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1286161246990978498}
   - component: {fileID: 8490785941088282297}
   - component: {fileID: 6173272670897562668}
+  - component: {fileID: 1873368170642487212}
   - component: {fileID: 6048414673667877540}
   m_Layer: 0
   m_Name: Player
@@ -89,7 +90,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
---- !u!114 &6048414673667877540
+--- !u!114 &1873368170642487212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,6 +98,22 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262348727053443364}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2a358ac89da31429082d6cd5d95758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnTime: 2
+  player: {fileID: 6048414673667877540}
+  waitArea: {fileID: 0}
+  spawner: {fileID: 0}
+--- !u!114 &6048414673667877540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262348727053443364}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b4e446fac0b46b46868a641e210564f, type: 3}
   m_Name: 
@@ -109,7 +126,7 @@ MonoBehaviour:
   physicsBody: {fileID: 6173272670897562668}
   gun: {fileID: 9060294248043521931}
   gunSoundEffects: {fileID: 1118564555692848823}
-  screenLog: {fileID: 0}
+  spawnHandler: {fileID: 1873368170642487212}
 --- !u!1 &2991959191018069501
 GameObject:
   m_ObjectHideFlags: 0
