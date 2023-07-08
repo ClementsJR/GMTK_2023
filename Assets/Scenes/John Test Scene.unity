@@ -3315,6 +3315,30 @@ PrefabInstance:
       propertyPath: screenLog
       value: 
       objectReference: {fileID: 75734030}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: muzzle
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletTrail
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: firingSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletSpread.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletSpread.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletSpread.z
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
