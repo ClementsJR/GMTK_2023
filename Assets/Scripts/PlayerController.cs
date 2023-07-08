@@ -12,10 +12,13 @@ public class PlayerController : MonoBehaviour {
     float jumpForce = 1000f;
     [SerializeField]
     Rigidbody physicsBody;
+    [SerializeField]
+    Transform muzzle;
 
     [SerializeField]
     SoundEffector gunSoundEffects;
 
+    private new Transform camera;
     private Vector2 rotation;
     private bool onGround;
 
@@ -23,6 +26,7 @@ public class PlayerController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         rotation = Vector2.zero;
         onGround = true;
+        camera = Camera.main.transform;
 	}
 
 	void Update() {
@@ -39,8 +43,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     void UpdateLook() {
-        Transform camera = Camera.main.transform;
-
         rotation.y += Input.GetAxis("Mouse X");
         rotation.x += -Input.GetAxis("Mouse Y");
         rotation.x = Mathf.Clamp(rotation.x, -15f, 15f);
@@ -73,5 +75,16 @@ public class PlayerController : MonoBehaviour {
 
 	void HandleFire() {
         gunSoundEffects.Play();
+
+        Color lineColor = Color.red;
+        if (Physics.Raycast(muzzle.position, camera.forward, out RaycastHit hit)) {
+            if(hit.rigidbody != null) {
+                hit.rigidbody.AddForceAtPosition(camera.forward * 100f, hit.point);
+                lineColor = Color.green;
+            }
+            Debug.DrawLine(muzzle.position, hit.point, lineColor, 2f);
+        } else {
+            Debug.DrawRay(muzzle.position, camera.forward * 100f, Color.white, 2f);
+        }
 	}
 }
