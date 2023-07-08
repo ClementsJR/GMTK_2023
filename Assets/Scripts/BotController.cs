@@ -14,6 +14,8 @@ public class BotController : MonoBehaviour {
     float turnSpeed = 3f;
     [SerializeField][Range(0f, 5000f)]
     float jumpForce = 1000f;
+    [SerializeField]
+    Rigidbody physicsBody;
 
     [Header("Weapon")]
     [SerializeField]
@@ -23,15 +25,17 @@ public class BotController : MonoBehaviour {
         currentTarget = opponents[0];
 	}
 
+	private void FixedUpdate() {
+        float distanceTo = Vector3.Distance(transform.position, currentTarget.position);
+        if (distanceTo > 30f) ApproachTarget();
+        if (distanceTo < 20f) PullAwayFromTarget();
+    }
+
 	void Update() {
         currentTarget = AcquireTarget();
 
         float angleTo = Vector3.SignedAngle(transform.position, currentTarget.position, Vector3.up);
         if (angleTo > 0.25f) FaceTarget(angleTo);
-
-        float distanceTo = Vector3.Distance(transform.position, currentTarget.position);
-        if (distanceTo > 30f) ApproachTarget();
-        if (distanceTo < 20f) PullAwayFromTarget();
     }
 
     Transform AcquireTarget() {
@@ -54,17 +58,19 @@ public class BotController : MonoBehaviour {
 	}
 
     void FaceTarget(float angle) {
-        float rotation = Mathf.Sign(angle) * turnSpeed;
+        float rotation = Mathf.Sign(angle) * turnSpeed * Time.deltaTime;
         transform.eulerAngles += Vector3.up * rotation;
     }
 
     void ApproachTarget() {
-        Vector3 movement = Vector3.forward * moveSpeed * Time.deltaTime;
-        transform.Translate(movement, Space.Self);
+        Vector3 movement = Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
+        movement = transform.TransformDirection(movement);
+        physicsBody.velocity = movement;
     }
 
     void PullAwayFromTarget() {
-        Vector3 movement = -Vector3.forward * moveSpeed * Time.deltaTime;
-        transform.Translate(movement, Space.Self);
+        Vector3 movement = -Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
+        movement = transform.TransformDirection(movement);
+        physicsBody.velocity = movement;
     }
 }

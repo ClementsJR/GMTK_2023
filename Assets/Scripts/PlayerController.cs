@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour {
     [Header("Movement")]
@@ -21,6 +22,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     SoundEffector gunSoundEffects;
 
+    /*[Header("Debug")]
+    [SerializeField]
+    TextMeshProUGUI screenLog;*/
+
     private new Transform camera;
     private Vector2 rotation;
     private bool onGround;
@@ -34,18 +39,22 @@ public class PlayerController : MonoBehaviour {
 
 	private void FixedUpdate() {
         UpdateMovement();
-	}
+
+        /*if (Input.GetButtonDown("Jump")) {
+            HandleJump();
+        }*/
+    }
 
 	void Update() {
         UpdateLook();
 
-        if (Input.GetButtonDown("Jump")) {
-            HandleJump();
-        }
-
         if (Input.GetButtonDown("Fire1")) {
             HandleFire();
 		}
+
+        if (Input.GetButtonDown("Jump")) {
+            HandleJump();
+        }
     }
 
     void UpdateLook() {
@@ -60,12 +69,11 @@ public class PlayerController : MonoBehaviour {
     void UpdateMovement() {
         if (!onGround) return;
 
-        Vector3 fwdMovement = Input.GetAxis("Vertical") * moveSpeed * Time.fixedDeltaTime * Vector3.forward;
-        Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.fixedDeltaTime * Vector3.right;
+        Vector3 fwdMovement = Input.GetAxis("Vertical") * moveSpeed * Vector3.forward;
+        Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Vector3.right;
         Vector3 movement = fwdMovement + sideMovement;
-
-
-        physicsBody.MovePosition(transform.position + transform.TransformDirection(movement));
+        movement = transform.TransformDirection(movement);
+        physicsBody.velocity = movement;
     }
 
     void HandleJump() {
@@ -78,7 +86,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
         onGround = true;
-	}
+    }
 
 	void HandleFire() {
         gunSoundEffects.Play();
