@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3430653130372614925}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,6 +141,8 @@ MonoBehaviour:
   spawnHandler: {fileID: 1873368170642487212}
   controller: {fileID: 6048414673667877540}
   maxHealth: 5
+  healthRegain: 0.1
+  invincibilityTime: 1.5
   healthBar: {fileID: 0}
   displayHealth: 1
 --- !u!1 &2991959191018069501

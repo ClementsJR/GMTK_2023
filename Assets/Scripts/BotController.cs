@@ -5,15 +5,26 @@ using UnityEngine;
 public class BotController : GenericController {
     
     [Header("Bot Options")]
-    [SerializeField]
-    Transform[] opponents;
     [SerializeField][Range(0f, 500f)]
     float maxFireDistance = 100f;
 
+    List<Transform> targets;
     Transform currentTarget;
+    BotState state;
 
     private void Start() {
-        currentTarget = opponents[0];
+        targets = new List<Transform>();
+
+        GameObject[] characters = GameObject.FindGameObjectsWithTag("Character");
+        foreach (GameObject character in characters) {
+            if (this.gameObject != character)
+                targets.Add(character.transform);
+		}
+        currentTarget = targets[0];
+	}
+
+	private void OnEnable() {
+        state = BotState.Patrol;
 	}
 
 	private void FixedUpdate() {
@@ -30,22 +41,22 @@ public class BotController : GenericController {
     }
 
     Transform AcquireTarget() {
-        Transform target = currentTarget;
-        float bestDistance = Vector3.Distance(transform.position, target.position);
+        Transform bestTarget = currentTarget;
+        float bestDistance = Vector3.Distance(transform.position, bestTarget.position);
 
-        foreach (Transform opponent in opponents) {
-            float distance = Vector3.Distance(transform.position, opponent.position);
+        foreach (Transform target in targets) {
+            float distance = Vector3.Distance(transform.position, target.position);
             if (distance < bestDistance) {
-                target = opponent;
+                bestTarget = target;
                 bestDistance = distance;
 			}
 		}
 
-        float currentDistance = Vector3.Distance(transform.position, currentTarget.position);
+        float currentDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
         if (currentDistance - bestDistance <= bestDistance)
-            target = currentTarget;
+            bestTarget = currentTarget;
 
-        return target;
+        return bestTarget;
 	}
 
     void FaceTarget() {
@@ -55,14 +66,14 @@ public class BotController : GenericController {
     }
 
     void ApproachTarget() {
-        Vector3 movement = Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
+        Vector3 movement = Vector3.forward * moveSpeed;
         movement = transform.TransformDirection(movement);
         movement.y = physicsBody.velocity.y;
         physicsBody.velocity = movement;
     }
 
     void PullAwayFromTarget() {
-        Vector3 movement = -Vector3.forward * moveSpeed;// * Time.fixedDeltaTime;
+        Vector3 movement = -Vector3.forward * moveSpeed;
         movement = transform.TransformDirection(movement);
         movement.y = physicsBody.velocity.y;
         physicsBody.velocity = movement;
@@ -71,10 +82,11 @@ public class BotController : GenericController {
     void CheckFire() {
         Vector3 targetDir = transform.forward;
         bool targetVisible = Physics.Raycast(transform.position, targetDir, out RaycastHit hit);
-        //Debug.DrawRay(transform.position, targetDir);
 
         if (targetVisible && hit.distance < maxFireDistance && hit.collider.transform == currentTarget) {
             gun.Fire(targetDir);
         }
     }
+
+    //GenericController
 }

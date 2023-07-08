@@ -11,6 +11,10 @@ public class HealthSystem : MonoBehaviour {
 	GenericController controller;
     [SerializeField]
     float maxHealth = 5f;
+	[SerializeField]
+	float healthRegain = 0.1f;
+	[SerializeField]
+	float invincibilityTime = 1.5f;
 
 	[Header("UI")]
 	[SerializeField]
@@ -19,19 +23,32 @@ public class HealthSystem : MonoBehaviour {
 	bool displayHealth;
 
 	float currentHealth;
+	float currentInvincibility;
 
 	private void OnEnable() {
 		currentHealth = maxHealth;
+		currentInvincibility = invincibilityTime;
 
-		if (displayHealth)
-			healthBar.value = currentHealth / maxHealth;
+		UpdateDisplay();
+	}
+
+	private void Update() {
+		if (currentHealth < maxHealth) {
+			currentHealth += healthRegain * Time.deltaTime;
+			UpdateDisplay();
+		}
+
+		if (currentInvincibility > 0) {
+			currentInvincibility -= Time.deltaTime;
+		}
 	}
 
 	public void DealDamage(float damage) {
-		currentHealth -= damage;
+		if (currentInvincibility > 0)
+			return;
 
-		if (displayHealth)
-			healthBar.value = currentHealth / maxHealth;
+		currentHealth -= damage;
+		UpdateDisplay();
 
 		if (currentHealth <= 0) {
 			Respawn();
@@ -43,5 +60,10 @@ public class HealthSystem : MonoBehaviour {
 
 		controller.enabled = false;
 		this.enabled = false;
+	}
+
+	private void UpdateDisplay() {
+		if (displayHealth)
+			healthBar.value = currentHealth / maxHealth;
 	}
 }
