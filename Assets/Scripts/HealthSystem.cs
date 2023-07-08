@@ -22,6 +22,9 @@ public class HealthSystem : MonoBehaviour {
 
 	private void OnEnable() {
 		currentHealth = maxHealth;
+
+		if (displayHealth)
+			healthBar.value = currentHealth / maxHealth;
 	}
 
 	public void DealDamage(float damage) {
