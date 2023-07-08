@@ -39,10 +39,6 @@ public class PlayerController : MonoBehaviour {
 
 	private void FixedUpdate() {
         UpdateMovement();
-
-        /*if (Input.GetButtonDown("Jump")) {
-            HandleJump();
-        }*/
     }
 
 	void Update() {
