@@ -13,8 +13,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     Rigidbody physicsBody;
 
+    private Vector2 rotation;
+
 	private void Start() {
         Cursor.lockState = CursorLockMode.Locked;
+        rotation = Vector2.zero;
 	}
 
 	void Update() {
@@ -24,12 +27,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void UpdateLook() {
-        float horizontalLook = Input.GetAxis("Mouse X");
-        transform.Rotate(transform.up * horizontalLook * lookSpeed);
-
         Transform camera = Camera.main.transform;
-        float verticalLook = Mathf.Clamp(-Input.GetAxis("Mouse Y"), -15f, 15f);
-        camera.Rotate(camera.right * verticalLook * lookSpeed, Space.World);
+
+        rotation.y += Input.GetAxis("Mouse X");
+        rotation.x += -Input.GetAxis("Mouse Y");
+        rotation.x = Mathf.Clamp(rotation.x, -15f, 15f);
+
+        transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed;
+        camera.localRotation = Quaternion.Euler(rotation.x * lookSpeed, 0, 0);
     }
 
     void UpdateMovement() {
