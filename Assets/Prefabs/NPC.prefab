@@ -412,6 +412,8 @@ MonoBehaviour:
   maxHealth: 5
   healthRegain: 0.1
   invincibilityTime: 1.5
+  ragdollPrefab: {fileID: 5704285475614124099, guid: 2cacb4cf1d8a90348b2a59866c1b09b5, type: 3}
+  spawnRagdoll: 1
   hitSound: {fileID: 619725694644023796}
   deathSound: {fileID: 619725694644023796}
   healthBar: {fileID: 0}

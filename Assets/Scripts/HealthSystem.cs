@@ -15,10 +15,10 @@ public class HealthSystem : MonoBehaviour {
 	float healthRegain = 0.1f;
 	[SerializeField]
 	float invincibilityTime = 1.5f;
-
-	/*[Header("Scoring")]
-	[SerializeField]*/
-	RoundController roundControl;
+	[SerializeField]
+	Transform ragdollPrefab;
+	[SerializeField]
+	bool spawnRagdoll;
 
 	[Header("Audio")]
 	[SerializeField]
@@ -32,6 +32,7 @@ public class HealthSystem : MonoBehaviour {
 	[SerializeField]
 	bool displayHealth;
 
+	RoundController roundControl;
 	float currentHealth;
 	float currentInvincibility;
 
@@ -79,8 +80,10 @@ public class HealthSystem : MonoBehaviour {
 	}
 
 	public void Respawn() {
-		spawnHandler.enabled = true;
+		if (spawnRagdoll)
+			Instantiate(ragdollPrefab, transform.position, transform.rotation);
 
+		spawnHandler.enabled = true;
 		controller.enabled = false;
 		this.enabled = false;
 	}
