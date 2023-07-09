@@ -16,6 +16,12 @@ public class HealthSystem : MonoBehaviour {
 	[SerializeField]
 	float invincibilityTime = 1.5f;
 
+	[Header("Audio")]
+	[SerializeField]
+	SoundEffector hitSound;
+	[SerializeField]
+	SoundEffector deathSound;
+
 	[Header("UI")]
 	[SerializeField]
 	Slider healthBar;
@@ -56,7 +62,10 @@ public class HealthSystem : MonoBehaviour {
 		UpdateDisplay();
 
 		if (currentHealth <= 0) {
+			deathSound.Play();
 			Respawn();
+		} else {
+			hitSound.Play();
 		}
 	}
 

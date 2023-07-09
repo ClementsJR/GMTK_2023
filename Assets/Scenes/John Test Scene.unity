@@ -1092,7 +1092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8647752857980521392, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_RootOrder
@@ -2642,6 +2642,10 @@ PrefabInstance:
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_Name
       value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8647752857980521392, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_RootOrder
