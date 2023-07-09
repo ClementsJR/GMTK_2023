@@ -43,7 +43,12 @@ public class HealthSystem : MonoBehaviour {
 		}
 	}
 
-	public void DealDamage(float damage) {
+	private void UpdateDisplay() {
+		if (displayHealth)
+			healthBar.value = HealthPercent();
+	}
+
+	public void DealDamage(float damage, Transform attacker) {
 		if (currentInvincibility > 0)
 			return;
 
@@ -62,8 +67,7 @@ public class HealthSystem : MonoBehaviour {
 		this.enabled = false;
 	}
 
-	private void UpdateDisplay() {
-		if (displayHealth)
-			healthBar.value = currentHealth / maxHealth;
+	public float HealthPercent() {
+		return currentHealth / maxHealth;
 	}
 }

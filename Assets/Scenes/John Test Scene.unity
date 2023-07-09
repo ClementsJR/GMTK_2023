@@ -733,7 +733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &316294563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3160,6 +3160,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9198605233940208538, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
+      propertyPath: onScreenLog
+      value: 
+      objectReference: {fileID: 75734030}
     - target: {fileID: 9198605233940208538, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: opponents.Array.size
       value: 1

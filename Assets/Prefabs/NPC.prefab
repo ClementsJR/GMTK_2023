@@ -207,6 +207,12 @@ MonoBehaviour:
   gun: {fileID: 8269930309537700932}
   healthSystem: {fileID: 4450468182089206454}
   maxFireDistance: 100
+  patrolChance: 0.002
+  campChance: 0.001
+  fireAngleLimit: 10
+  switchFromFightTime: 3
+  retreatHealthLimit: 0.25
+  onScreenLog: {fileID: 0}
 --- !u!114 &4450468182089206454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +323,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8647752857980521392}
     m_Modifications:
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: fireRate
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: bulletSpread.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: bulletSpread.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: bulletSpread.z
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8366617729554652428, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
       propertyPath: m_Name
       value: Weapon
