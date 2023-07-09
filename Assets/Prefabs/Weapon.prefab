@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzle: {fileID: 9181210714775883972}
-  bulletForce: 250
+  bulletForce: 100
   fireRate: 0.2
   damage: 1
   bulletSpread: {x: 0.05, y: 0.05, z: 0.05}
