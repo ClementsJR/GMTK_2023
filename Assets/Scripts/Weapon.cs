@@ -26,9 +26,11 @@ public class Weapon : MonoBehaviour {
     float bulletSpeed = 200f;
 
     private float timeToFireAgain;
+    private GenericController controller;
 
 	private void Start() {
         timeToFireAgain = 0f;
+        controller = gameObject.GetComponentInParent<GenericController>();
 	}
 
 	private void Update() {
@@ -68,8 +70,8 @@ public class Weapon : MonoBehaviour {
         return damage;
 	}
 
-    public Transform Attacker() {
-        return transform;
+    public GenericController Attacker() {
+        return controller;
 	}
 
     public Transform Muzzle() {

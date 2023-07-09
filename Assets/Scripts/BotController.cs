@@ -278,8 +278,8 @@ public class BotController : GenericController {
 
         if (visibleEnemies.Count > 0) {
             SwitchToFight();
-            if (visibleEnemies.Contains(weapon.Attacker()))
-                currentTarget = weapon.Attacker();
+            if (visibleEnemies.Contains(weapon.Attacker().transform))
+                currentTarget = weapon.Attacker().transform;
 		} else {
             SwitchToRetreat();
 		}

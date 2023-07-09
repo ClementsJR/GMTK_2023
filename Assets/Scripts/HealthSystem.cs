@@ -16,6 +16,10 @@ public class HealthSystem : MonoBehaviour {
 	[SerializeField]
 	float invincibilityTime = 1.5f;
 
+	[Header("Scoring")]
+	[SerializeField]
+	RoundController roundControl;
+
 	[Header("Audio")]
 	[SerializeField]
 	SoundEffector hitSound;
@@ -30,6 +34,10 @@ public class HealthSystem : MonoBehaviour {
 
 	float currentHealth;
 	float currentInvincibility;
+
+	private void Start() {
+		roundControl = GameObject.FindObjectOfType<RoundController>();
+	}
 
 	private void OnEnable() {
 		currentHealth = maxHealth;
@@ -63,6 +71,7 @@ public class HealthSystem : MonoBehaviour {
 
 		if (currentHealth <= 0) {
 			deathSound.Play();
+			roundControl.AwardKill(weapon.Attacker(), this.controller);
 			Respawn();
 		} else {
 			hitSound.Play();
