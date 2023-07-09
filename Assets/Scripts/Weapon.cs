@@ -12,10 +12,18 @@ public class Weapon : MonoBehaviour {
     float fireRate = 0.2f;
     [SerializeField][Range(0f, 5f)]
     float damage = 1f;
+    [SerializeField]
+    Vector3 bulletSpread = new Vector3(0.1f, 0.1f, 0.1f);
 
     [Header("Audio")]
     [SerializeField]
     SoundEffector firingSound;
+
+    [Header("Visual")]
+    [SerializeField]
+    TrailRenderer bulletTrail;
+    [SerializeField]
+    float bulletSpeed = 200f;
 
     private float timeToFireAgain;
 
@@ -27,29 +35,54 @@ public class Weapon : MonoBehaviour {
 		if (timeToFireAgain > 0f) {
             timeToFireAgain -= Time.deltaTime;
 		}
-	}
-
-	public void Fire(Vector3 direction) {
-        if (timeToFireAgain > 0f) return;
-
-        firingSound.Play();
-        timeToFireAgain = fireRate;
-
-        Color lineColor = Color.red;
-        if (Physics.Raycast(muzzle.position, direction, out RaycastHit hit)) {
-            if (hit.rigidbody != null) {
-                hit.rigidbody.AddForceAtPosition(direction * bulletForce, hit.point);
-                lineColor = Color.green;
-
-                hit.rigidbody.BroadcastMessage("DealDamage", damage);
-            }
-            Debug.DrawLine(muzzle.position, hit.point, lineColor, 2f);
-        } else {
-            Debug.DrawRay(muzzle.position, direction * 100f, Color.white, 2f);
-        }
     }
 
     public bool CanFire() {
         return timeToFireAgain <= 0f;
+    }
+
+    public void Fire(Vector3 direction) {
+        if (timeToFireAgain > 0f) return;
+
+        Vector3 spreadDirection = direction;// + GetSpread();
+        //spreadDirection.Normalize();
+
+        timeToFireAgain = fireRate;
+        firingSound.Play();
+        TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
+        Vector3 trailEndpoint = Vector3.one * 1000f;
+
+        if (Physics.Raycast(muzzle.position, spreadDirection, out RaycastHit hit)) {
+            if (hit.rigidbody != null) {
+                hit.rigidbody.AddForceAtPosition(spreadDirection * bulletForce, hit.point);
+
+                hit.rigidbody.BroadcastMessage("DealDamage", damage);
+            }
+            trailEndpoint = hit.point;
+        }
+
+        StartCoroutine(SpawnTrail(trail, trailEndpoint));
+    }
+
+    private Vector3 GetSpread() {
+        return new Vector3(
+            Random.Range(-bulletSpread.x, bulletSpread.x),
+            Random.Range(-bulletSpread.y, bulletSpread.y),
+            Random.Range(-bulletSpread.z, bulletSpread.z)
+        );
 	}
+
+    private IEnumerator SpawnTrail(TrailRenderer trail, Vector3 endPoint) {
+        Vector3 startPoint = muzzle.position;
+        float distance = Vector3.Distance(startPoint, endPoint);
+        float remainingDistance = distance;
+
+        while (remainingDistance > 0) {
+            trail.transform.position = Vector3.Lerp(startPoint, endPoint, 1 - (remainingDistance / distance));
+            remainingDistance -= bulletSpeed * Time.deltaTime;
+            yield return null;
+		}
+
+        Destroy(trail.gameObject);
+    }
 }

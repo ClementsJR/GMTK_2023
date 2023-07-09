@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6264886496552396056
 MonoBehaviour:
@@ -50,7 +50,10 @@ MonoBehaviour:
   bulletForce: 250
   fireRate: 0.2
   damage: 1
+  bulletSpread: {x: 0.05, y: 0.05, z: 0.05}
   firingSound: {fileID: 4827577036715020573}
+  bulletTrail: {fileID: 3891868655671676267, guid: fb0d443aa336d1e41a1f884bc5159166, type: 3}
+  bulletSpeed: 200
 --- !u!82 &8425324673960203649
 AudioSource:
   m_ObjectHideFlags: 0

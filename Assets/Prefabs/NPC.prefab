@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 4450468182089206454}
   m_Layer: 6
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,8 +206,13 @@ MonoBehaviour:
   physicsBody: {fileID: 1287566664149207530}
   gun: {fileID: 8269930309537700932}
   healthSystem: {fileID: 4450468182089206454}
-  opponents: []
   maxFireDistance: 100
+  patrolChance: 0.002
+  campChance: 0.001
+  fireAngleLimit: 10
+  switchFromFightTime: 3
+  retreatHealthLimit: 0.25
+  onScreenLog: {fileID: 0}
 --- !u!114 &4450468182089206454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +228,10 @@ MonoBehaviour:
   spawnHandler: {fileID: 5214462696226210202}
   controller: {fileID: 9198605233940208538}
   maxHealth: 5
+  healthRegain: 0.1
+  invincibilityTime: 1.5
+  healthBar: {fileID: 0}
+  displayHealth: 0
 --- !u!1 &8905973368575446648
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +323,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8647752857980521392}
     m_Modifications:
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: fireRate
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: bulletSpread.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: bulletSpread.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6264886496552396056, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
+      propertyPath: bulletSpread.z
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8366617729554652428, guid: 9afa1d7f6a39f6e458628282d9ab6248, type: 3}
       propertyPath: m_Name
       value: Weapon

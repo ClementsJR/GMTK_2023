@@ -733,7 +733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &316294563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3161,6 +3161,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9198605233940208538, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
+      propertyPath: onScreenLog
+      value: 
+      objectReference: {fileID: 75734030}
+    - target: {fileID: 9198605233940208538, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: opponents.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -3315,6 +3319,30 @@ PrefabInstance:
       propertyPath: screenLog
       value: 
       objectReference: {fileID: 75734030}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: muzzle
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletTrail
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: firingSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletSpread.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletSpread.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9060294248043521931, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
+      propertyPath: bulletSpread.z
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
