@@ -233,12 +233,13 @@ public class BotController : GenericController {
 
     void CheckFire() {
         Vector3 targetDir = DirectionTo(currentTarget);
+        targetDir -= DirectionTo(gun.Muzzle().position);
 
         float angleFromForward = Vector3.Angle(transform.forward, targetDir);
         if (angleFromForward > fireAngleLimit) return;
 
-        bool targetVisible = Physics.Raycast(transform.position, targetDir, out RaycastHit hit);
-        if (targetVisible && hit.distance < maxFireDistance && hit.collider.transform == currentTarget) {
+        bool canHit = Physics.Raycast(gun.Muzzle().position, targetDir, out RaycastHit hit);
+        if (canHit && hit.distance < maxFireDistance && hit.collider.transform == currentTarget) {
             gun.Fire(targetDir);
         }
     }

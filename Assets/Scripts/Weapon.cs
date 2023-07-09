@@ -44,8 +44,8 @@ public class Weapon : MonoBehaviour {
     public void Fire(Vector3 direction) {
         if (timeToFireAgain > 0f) return;
 
-        Vector3 spreadDirection = direction;// + GetSpread();
-        //spreadDirection.Normalize();
+        Vector3 spreadDirection = direction + GetSpread();
+        spreadDirection.Normalize();
 
         timeToFireAgain = fireRate;
         firingSound.Play();
@@ -70,6 +70,10 @@ public class Weapon : MonoBehaviour {
 
     public Transform Attacker() {
         return transform;
+	}
+
+    public Transform Muzzle() {
+        return muzzle;
 	}
 
     private Vector3 GetSpread() {
