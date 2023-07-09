@@ -3,24 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerController : MonoBehaviour {
-    [Header("Movement")]
-    [SerializeField][Range(0f, 5f)]
-    float lookSpeed = 3f;
-    [SerializeField][Range(0f, 50f)]
-    float moveSpeed = 10f;
-    [SerializeField][Range(0f, 5000f)]
-    float jumpForce = 1000f;
-    [SerializeField]
-    Rigidbody physicsBody;
-
-    [Header("Gun")]
-    [SerializeField]
-    Weapon gun;
-
-    [Header("Sound")]
-    [SerializeField]
-    SoundEffector gunSoundEffects;
+public class PlayerController : GenericController {
 
     /*[Header("Debug")]
     [SerializeField]
@@ -43,14 +26,19 @@ public class PlayerController : MonoBehaviour {
 
 	void Update() {
         UpdateLook();
+        onGround = CheckIfGrounded();
 
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") && gun.CanFire()) {
             HandleFire();
 		}
 
         if (Input.GetButtonDown("Jump")) {
             HandleJump();
         }
+
+        if (Input.GetKeyDown(KeyCode.Backspace)) {
+           healthSystem.Respawn();
+		}
     }
 
     void UpdateLook() {
@@ -69,6 +57,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 sideMovement = Input.GetAxis("Horizontal") * moveSpeed * Vector3.right;
         Vector3 movement = fwdMovement + sideMovement;
         movement = transform.TransformDirection(movement);
+        movement.y = physicsBody.velocity.y;
         physicsBody.velocity = movement;
     }
 
@@ -80,12 +69,7 @@ public class PlayerController : MonoBehaviour {
         onGround = false;
     }
 
-	private void OnTriggerEnter(Collider other) {
-        onGround = true;
-    }
-
 	void HandleFire() {
-        gunSoundEffects.Play();
         gun.Fire(camera.forward);
 	}
 }
