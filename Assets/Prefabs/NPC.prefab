@@ -211,7 +211,8 @@ MonoBehaviour:
   campChance: 0.001
   fireAngleLimit: 10
   switchFromFightTime: 3
-  retreatHealthLimit: 0.25
+  startRetreatLimit: 0.25
+  endRetreatLimit: 0.5
   onScreenLog: {fileID: 0}
 --- !u!114 &4450468182089206454
 MonoBehaviour:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using TMPro;
 
 public class BotController : GenericController {
@@ -10,8 +11,8 @@ public class BotController : GenericController {
     float maxFireDistance = 100f;
     [SerializeField][Range(0f, 1f)]
     float patrolChance = 0.1f;
-    [SerializeField][Range(0f, 1f)]
-    float campChance = 0.01f;
+    [SerializeField]
+    float maxPatrolDistance = 100f;
     [SerializeField]
     float fireAngleLimit = 5f;
     [SerializeField]
@@ -26,6 +27,10 @@ public class BotController : GenericController {
 
     List<Transform> enemies;
     List<Transform> visibleEnemies;
+    NavMeshPath patrolPath;
+    Vector3 currentPatrolCorner;
+    int nextPatrolCornerIndex = 0;
+    float patrolCutoffDistance = 0.5f;
     Transform currentTarget;
     BotState state;
     float timeSinceEnemySeen;
@@ -41,6 +46,7 @@ public class BotController : GenericController {
 		}
 
         currentTarget = null;
+        patrolPath = new NavMeshPath();
 	}
 
 	private void OnEnable() {
@@ -51,7 +57,11 @@ public class BotController : GenericController {
 	private void FixedUpdate() {
         UpdateVisibleEnemies();
 
-        if(state == BotState.Fight) {
+        if (state == BotState.Patrol) {
+            MoveAlongPatrol();
+		}
+
+        if (state == BotState.Fight) {
             float distanceTo = Vector3.Distance(transform.position, currentTarget.position);
             if (distanceTo > 30f) ApproachTarget();
             if (distanceTo < 10f) PullAwayFromTarget();
@@ -94,32 +104,50 @@ public class BotController : GenericController {
     void HandlePatrol() {
         if (visibleEnemies.Count > 0) {
             SwitchToFight();
-        } else {
-            float campRoll = Random.Range(0f, 1f);
-            if (campRoll <= campChance)
-                SwitchToCamp();
-		}
-
-        //Move towards patrol point
+        }
     }
 
     void SwitchToPatrol() {
         state = BotState.Patrol;
 
-
+        Vector3 randomDir = Random.insideUnitSphere * maxPatrolDistance;
+        if (NavMesh.SamplePosition(transform.position + randomDir, out NavMeshHit foundPoint, maxPatrolDistance, 1)) {
+            Vector3 patrolTarget = foundPoint.position;
+            NavMesh.CalculatePath(transform.position, patrolTarget, 1, patrolPath);
+            currentPatrolCorner = patrolPath.corners[0];
+            nextPatrolCornerIndex = 1;
+        } else
+            SwitchToCamp();
     }
+
+    void MoveAlongPatrol() {
+        float distanceNeeded = Vector3.Distance(transform.position, currentPatrolCorner);
+
+        if (distanceNeeded < patrolCutoffDistance) {
+            if (nextPatrolCornerIndex == patrolPath.corners.Length) {
+                SwitchToCamp();
+                return;
+            } else {
+                currentPatrolCorner = patrolPath.corners[nextPatrolCornerIndex];
+                nextPatrolCornerIndex++;
+            }
+		}
+
+        Face(currentPatrolCorner);
+        ApproachTarget();
+	}
 
     void HandleFight() {
         if (healthSystem.HealthPercent() < startRetreatLimit) {
             state = BotState.Retreat;
         } else if (visibleEnemies.Contains(currentTarget)) {
-            FaceTarget();
+            Face(currentTarget.position);
             if (gun.CanFire()) {
                 CheckFire();
             }
         } else if (visibleEnemies.Count > 0) {
             currentTarget = NearestEnemy();
-            FaceTarget();
+            Face(currentTarget.position);
             if (gun.CanFire())
                 CheckFire();
         } else if (timeSinceEnemySeen > switchFromFightTime) {
@@ -145,27 +173,8 @@ public class BotController : GenericController {
         state = BotState.Retreat;
     }
 
-    Transform AcquireTarget() {
-        Transform bestTarget = currentTarget;
-        float bestDistance = Vector3.Distance(transform.position, bestTarget.position);
-
-        foreach (Transform opponent in enemies) {
-            float distance = Vector3.Distance(transform.position, opponent.position);
-            if (distance < bestDistance) {
-                bestTarget = opponent;
-                bestDistance = distance;
-			}
-		}
-
-        float currentDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
-        if (currentDistance - bestDistance <= bestDistance)
-            bestTarget = currentTarget;
-
-        return bestTarget;
-	}
-
-    void FaceTarget() {
-        Quaternion rotation = Quaternion.LookRotation(currentTarget.position - transform.position);
+    void Face(Vector3 target) {
+        Quaternion rotation = Quaternion.LookRotation(target - transform.position);
         rotation.eulerAngles = new Vector3(0f, rotation.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * lookSpeed);
     }
@@ -232,14 +241,14 @@ public class BotController : GenericController {
         return closestEnemy;
 	}
 
-    void DealDamage(float damage, Transform attacker) {
+    void DealDamage(Weapon weapon) {
         if (state == BotState.Fight || state == BotState.Retreat)
             return;
 
         if (visibleEnemies.Count > 0) {
             SwitchToFight();
-            if (visibleEnemies.Contains(attacker))
-                currentTarget = attacker;
+            if (visibleEnemies.Contains(weapon.Attacker()))
+                currentTarget = weapon.Attacker();
 		} else {
             SwitchToRetreat();
 		}

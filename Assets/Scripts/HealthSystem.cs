@@ -48,11 +48,11 @@ public class HealthSystem : MonoBehaviour {
 			healthBar.value = HealthPercent();
 	}
 
-	public void DealDamage(float damage, Transform attacker) {
+	public void DealDamage(Weapon weapon) {
 		if (currentInvincibility > 0)
 			return;
 
-		currentHealth -= damage;
+		currentHealth -= weapon.Damage();
 		UpdateDisplay();
 
 		if (currentHealth <= 0) {
