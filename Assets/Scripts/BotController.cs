@@ -44,14 +44,16 @@ public class BotController : GenericController {
             if (this.gameObject != character)
                 enemies.Add(character.transform);
 		}
-
-        currentTarget = null;
-        patrolPath = new NavMeshPath();
 	}
 
 	private void OnEnable() {
-        SwitchToPatrol();
+        if (patrolPath == null)
+            patrolPath = new NavMeshPath();
+
+        currentTarget = null;
         timeSinceEnemySeen = 0f;
+
+        SwitchToPatrol();
 	}
 
 	private void FixedUpdate() {
