@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/John Test Scene.unity
     guid: 3dd4948008592d64f8e149a9b9b8ced4
+  - enabled: 1
+    path: Assets/Scenes/Level Select.unity
+    guid: d139f7676fa3ea24197e86dbbf498cae
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
+    guid: a8205c2db68d89a429a9a62d2a0855d1
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 513e592c9ac556640a6899047c7585b9
   m_configObjects: {}
