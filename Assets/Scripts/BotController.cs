@@ -22,8 +22,8 @@ public class BotController : GenericController {
     [SerializeField]
     float endRetreatLimit = 0.5f;
 
-    [Header("Debug")]
-    public TextMeshProUGUI onScreenLog;
+    /*[Header("Debug")]
+    public TextMeshProUGUI onScreenLog;*/
 
     List<Transform> enemies;
     List<Transform> visibleEnemies;
@@ -71,7 +71,7 @@ public class BotController : GenericController {
     }
 
 	void Update() {
-        onScreenLog.text = "" + state;
+        //onScreenLog.text = "" + state;
 
         switch(state) {
         case BotState.Camp:
