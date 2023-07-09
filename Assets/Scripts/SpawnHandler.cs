@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SpawnHandler : MonoBehaviour {
 
@@ -12,6 +13,14 @@ public class SpawnHandler : MonoBehaviour {
     HealthSystem health;
     [SerializeField]
     Spawner spawner;
+
+    [Header("UI")]
+    [SerializeField]
+    bool displayTimer = false;
+    [SerializeField]
+    GameObject respawnScreen;
+    [SerializeField]
+    TextMeshProUGUI timerLabel;
 
     private float timeToSpawn;
     private bool isFirstSpawn = true;
@@ -25,18 +34,29 @@ public class SpawnHandler : MonoBehaviour {
         }
         
         controller.transform.position = spawner.GetWaitLocation();
+
+        if (displayTimer) {
+            respawnScreen.SetActive(true);
+            UpdateLabel();
+        }
     }
 
     void Update() {
         timeToSpawn -= Time.deltaTime;
+        if (displayTimer) UpdateLabel();
 
-        if (timeToSpawn <= 0f) {
+            if (timeToSpawn <= 0f) {
             Vector3 spawnLocation = spawner.GetSpawnLocation();
             transform.position = spawnLocation;
 
             health.enabled = true;
             controller.enabled = true;
+            if (displayTimer)  respawnScreen.SetActive(false);
             this.enabled = false;
 		}
     }
+
+    void UpdateLabel() {
+        timerLabel.text = timeToSpawn.ToString("F2");
+	}
 }

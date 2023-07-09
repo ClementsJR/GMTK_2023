@@ -106,6 +106,9 @@ MonoBehaviour:
   controller: {fileID: 6048414673667877540}
   health: {fileID: 3430653130372614925}
   spawner: {fileID: 0}
+  displayTimer: 1
+  respawnScreen: {fileID: 0}
+  timerLabel: {fileID: 0}
 --- !u!114 &6048414673667877540
 MonoBehaviour:
   m_ObjectHideFlags: 0

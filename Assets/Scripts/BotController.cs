@@ -71,8 +71,6 @@ public class BotController : GenericController {
     }
 
 	void Update() {
-        //onScreenLog.text = "" + state;
-
         switch(state) {
         case BotState.Camp:
             HandleCamp();
