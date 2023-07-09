@@ -5136,7 +5136,7 @@ PrefabInstance:
       objectReference: {fileID: 6893874143016192840}
     - target: {fileID: 4330612123311151230, guid: 65c34fa428c08a24d92a1d0ddd9d5859, type: 3}
       propertyPath: startRoundTime
-      value: 90
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7757139470104559741, guid: 65c34fa428c08a24d92a1d0ddd9d5859, type: 3}
       propertyPath: m_RootOrder

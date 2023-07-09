@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class RoundController : MonoBehaviour {
+public class RoundController : MonoBehaviour, IComparer {
 
     [SerializeField]
     float startRoundTime = 60f * 3f;
@@ -75,6 +75,8 @@ public class RoundController : MonoBehaviour {
         }
         roundEndPanel.SetActive(true);
 
+        System.Array.Sort(controllers, this);
+
         foreach (GenericController controller in controllers) {
             string name = controller.name;
             nameDisplay.text += name + "\n";
@@ -104,4 +106,23 @@ public class RoundController : MonoBehaviour {
         kills[killer.name] = 1 + (int)kills[killer.name];
         deaths[victim.name] = 1 + (int)deaths[victim.name];
     }
+
+	public int Compare(object x, object y) {
+        string leftName = ((GenericController)x).name;
+        string rightName = ((GenericController)y).name;
+
+        int leftKills = (int)kills[leftName];
+        int rightKills = (int)kills[rightName];
+
+        int comparison = rightKills - leftKills;
+
+        if (comparison == 0) {
+            int leftDeaths = (int)deaths[leftName];
+            int rightDeaths = (int)deaths[rightName];
+
+            comparison = leftDeaths - rightDeaths;
+		}
+
+        return comparison;
+	}
 }
