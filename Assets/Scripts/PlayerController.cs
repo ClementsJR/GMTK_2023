@@ -9,6 +9,10 @@ public class PlayerController : GenericController {
     [SerializeField]
     TextMeshProUGUI screenLog;*/
 
+    [Header("Player Audio")]
+    [SerializeField]
+    SoundEffector jumpSound;
+
     private new Transform camera;
     private Vector2 rotation;
     private bool onGround;
@@ -67,6 +71,7 @@ public class PlayerController : GenericController {
 
         Vector3 jump = (Vector3.up + (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"))).normalized * jumpForce;
         physicsBody.AddForce(jump);
+        jumpSound.Play();
         onGround = false;
     }
 

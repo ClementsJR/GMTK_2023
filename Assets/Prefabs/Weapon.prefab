@@ -165,8 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 8425324673960203649}
   clips:
-  - {fileID: 8300000, guid: afebc4e343c930744a92adfb15ad74f8, type: 3}
-  - {fileID: 8300000, guid: 9acd1606ae12bfb409e697035252dbef, type: 3}
+  - {fileID: 8300000, guid: 9ab25dc04f4f1a0448cc4db6b2533167, type: 3}
+  - {fileID: 8300000, guid: 0f47288576191364fbe8a47c9ae8e655, type: 3}
 --- !u!1001 &990527196994837041
 PrefabInstance:
   m_ObjectHideFlags: 0
