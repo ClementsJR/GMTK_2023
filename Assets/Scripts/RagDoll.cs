@@ -27,4 +27,8 @@ public class RagDoll : MonoBehaviour {
         man.AddExplosionForce(explosionForce, transform.position, explosionRadius, upwardsModifier);
         Destroy(this.gameObject, lifetime);
     }
+
+    void DealDamage(Weapon weapon) {
+        return;
+	}
 }
