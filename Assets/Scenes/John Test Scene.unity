@@ -1088,11 +1088,11 @@ PrefabInstance:
       objectReference: {fileID: 1903867587}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_Name
-      value: NPC (1)
+      value: Bot Gamma
       objectReference: {fileID: 0}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8647752857980521392, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_RootOrder
@@ -1417,11 +1417,11 @@ PrefabInstance:
       objectReference: {fileID: 1903867587}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_Name
-      value: NPC (2)
+      value: Bot Delta
       objectReference: {fileID: 0}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8647752857980521392, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_RootOrder
@@ -2701,12 +2701,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6893874143016192840}
     - target: {fileID: 4330612123311151230, guid: 65c34fa428c08a24d92a1d0ddd9d5859, type: 3}
-      propertyPath: startExitTime
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4330612123311151230, guid: 65c34fa428c08a24d92a1d0ddd9d5859, type: 3}
       propertyPath: startRoundTime
-      value: 1
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 7757139470104559741, guid: 65c34fa428c08a24d92a1d0ddd9d5859, type: 3}
       propertyPath: m_RootOrder
@@ -2775,7 +2771,7 @@ PrefabInstance:
       objectReference: {fileID: 1903867587}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_Name
-      value: NPC
+      value: Bot Alpha
       objectReference: {fileID: 0}
     - target: {fileID: 7441359555401450676, guid: e68d05b5d5a28e74fb32e9191c14bc5d, type: 3}
       propertyPath: m_IsActive
@@ -2918,7 +2914,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 262348727053443364, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: You
       objectReference: {fileID: 0}
     - target: {fileID: 1286161246990978498, guid: df257c4f4e3d48143b1d70dbeb2ec567, type: 3}
       propertyPath: m_RootOrder

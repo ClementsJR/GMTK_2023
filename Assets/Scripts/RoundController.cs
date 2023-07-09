@@ -79,14 +79,19 @@ public class RoundController : MonoBehaviour {
             string name = controller.name;
             nameDisplay.text += name + "\n";
 
-            int numKills = (int)(kills[name]);
-            killDisplay.text += kills + "\n";
+            int numKills = (int)kills[name];
+            killDisplay.text += numKills + "\n";
 
-            int numDeaths = (int)(deaths[name]);
-            deathDisplay.text += deaths + "\n";
+            int numDeaths = (int)deaths[name];
+            deathDisplay.text += numDeaths + "\n";
 
             float kdRatio = numKills / (float)numDeaths;
-            ratioDisplay.text += kdRatio.ToString("F1") + "\n";
+            string ratioText = kdRatio.ToString("F1");
+            if (numDeaths == 0) {
+                if (numKills == 0) ratioText = "Weak";
+                else ratioText = "Flawless";
+			}
+            ratioDisplay.text += ratioText + "\n";
 		}
     }
 

@@ -16,8 +16,8 @@ public class HealthSystem : MonoBehaviour {
 	[SerializeField]
 	float invincibilityTime = 1.5f;
 
-	[Header("Scoring")]
-	[SerializeField]
+	/*[Header("Scoring")]
+	[SerializeField]*/
 	RoundController roundControl;
 
 	[Header("Audio")]
