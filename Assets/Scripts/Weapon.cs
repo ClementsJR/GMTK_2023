@@ -56,13 +56,21 @@ public class Weapon : MonoBehaviour {
             if (hit.rigidbody != null) {
                 hit.rigidbody.AddForceAtPosition(spreadDirection * bulletForce, hit.point);
 
-                hit.rigidbody.BroadcastMessage("DealDamage", damage);
+                hit.rigidbody.BroadcastMessage("DealDamage", this);
             }
             trailEndpoint = hit.point;
         }
 
         StartCoroutine(SpawnTrail(trail, trailEndpoint));
     }
+
+    public float Damage() {
+        return damage;
+	}
+
+    public Transform Attacker() {
+        return transform;
+	}
 
     private Vector3 GetSpread() {
         return new Vector3(

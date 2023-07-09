@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum BotState {
-    Camp, Patrol, Approach, Retreat
+    Camp, Patrol, Fight, Retreat
 }
