@@ -50,7 +50,7 @@ public class Weapon : MonoBehaviour {
         timeToFireAgain = fireRate;
         firingSound.Play();
         TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
-        Vector3 trailEndpoint = Vector3.one * 1000f;
+        Vector3 trailEndpoint = direction * 500f;
 
         if (Physics.Raycast(muzzle.position, spreadDirection, out RaycastHit hit)) {
             if (hit.rigidbody != null) {

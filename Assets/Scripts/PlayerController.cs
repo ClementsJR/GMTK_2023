@@ -48,6 +48,7 @@ public class PlayerController : GenericController {
 
         transform.eulerAngles = new Vector2(0, rotation.y) * lookSpeed;
         camera.localRotation = Quaternion.Euler(rotation.x * lookSpeed, 0, 0);
+        gun.transform.localRotation = Quaternion.Euler(rotation.x * lookSpeed, 0, 0);
     }
 
     void UpdateMovement() {
