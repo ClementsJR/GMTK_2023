@@ -12,7 +12,7 @@ public class BotController : GenericController {
     [SerializeField][Range(0f, 1f)]
     float patrolChance = 0.1f;
     [SerializeField]
-    float maxPatrolDistance = 100f;
+    float maxPatrolDistance = 50f;
     [SerializeField]
     float fireAngleLimit = 5f;
     [SerializeField]
@@ -28,7 +28,7 @@ public class BotController : GenericController {
     List<Transform> enemies;
     List<Transform> visibleEnemies;
     NavMeshPath patrolPath;
-    Vector3 currentPatrolCorner;
+    Vector3 currentPatrolCorner = Vector3.zero;
     int nextPatrolCornerIndex = 0;
     float patrolCutoffDistance = 0.5f;
     Transform currentTarget;
@@ -44,7 +44,7 @@ public class BotController : GenericController {
             if (this.gameObject != character)
                 enemies.Add(character.transform);
 		}
-	}
+    }
 
 	private void OnEnable() {
         if (patrolPath == null)
@@ -68,6 +68,10 @@ public class BotController : GenericController {
             if (distanceTo > 30f) ApproachTarget();
             if (distanceTo < 10f) PullAwayFromTarget();
         }
+
+        if (state == BotState.Retreat) {
+            PullAwayFromTarget();
+		}
     }
 
 	void Update() {
@@ -111,7 +115,7 @@ public class BotController : GenericController {
         state = BotState.Patrol;
 
         Vector3 randomDir = Random.insideUnitSphere * maxPatrolDistance;
-        if (NavMesh.SamplePosition(transform.position + randomDir, out NavMeshHit foundPoint, maxPatrolDistance, 1)) {
+        if (NavMesh.SamplePosition(randomDir, out NavMeshHit foundPoint, maxPatrolDistance, 1)) {
             Vector3 patrolTarget = foundPoint.position;
             NavMesh.CalculatePath(transform.position, patrolTarget, 1, patrolPath);
             currentPatrolCorner = patrolPath.corners[0];
@@ -120,11 +124,28 @@ public class BotController : GenericController {
             SwitchToCamp();
     }
 
-    void MoveAlongPatrol() {
+	private void OnDrawGizmos() {
+        if (state == BotState.Patrol) {
+            Gizmos.color = Color.white;
+            Gizmos.DrawLine(transform.position, currentPatrolCorner);
+            Gizmos.DrawSphere(currentPatrolCorner, 0.5f);
+
+            Gizmos.color = Color.green;
+            Vector3 cornerDirection = DirectionTo(currentPatrolCorner);
+            cornerDirection.y = 0f;
+            cornerDirection.Normalize();
+            Gizmos.DrawRay(transform.position, cornerDirection);
+        } else if (state == BotState.Fight) {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, currentTarget.position);
+        }
+    }
+
+	void MoveAlongPatrol() {
         float distanceNeeded = Vector3.Distance(transform.position, currentPatrolCorner);
 
         if (distanceNeeded < patrolCutoffDistance) {
-            if (nextPatrolCornerIndex == patrolPath.corners.Length) {
+            if (nextPatrolCornerIndex >= patrolPath.corners.Length) {
                 SwitchToCamp();
                 return;
             } else {
@@ -134,7 +155,12 @@ public class BotController : GenericController {
 		}
 
         Face(currentPatrolCorner);
-        ApproachTarget();
+        Vector3 cornerDirection = DirectionTo(currentPatrolCorner);
+        cornerDirection.y = 0f;
+        cornerDirection.Normalize();
+        float angle = Vector3.Angle(transform.forward, cornerDirection);
+        if (angle < 1f)
+            ApproachTarget();
 	}
 
     void HandleFight() {
@@ -198,8 +224,12 @@ public class BotController : GenericController {
 	}
 
     Vector3 DirectionTo(Transform enemy) {
-        return transform.TransformDirection(transform.InverseTransformPoint(enemy.position));
+        return DirectionTo(enemy.position);
     }
+
+    Vector3 DirectionTo(Vector3 position) {
+        return transform.TransformDirection(transform.InverseTransformPoint(position));
+	}
 
     void CheckFire() {
         Vector3 targetDir = DirectionTo(currentTarget);

@@ -18,7 +18,7 @@ public class PlayerController : GenericController {
         rotation = Vector2.zero;
         onGround = true;
         camera = Camera.main.transform;
-	}
+    }
 
 	private void FixedUpdate() {
         UpdateMovement();
