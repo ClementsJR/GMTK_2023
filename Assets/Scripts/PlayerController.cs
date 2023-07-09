@@ -9,13 +9,8 @@ public class PlayerController : GenericController {
     [SerializeField]
     TextMeshProUGUI screenLog;*/
 
-    [Header("Player Audio")]
-    [SerializeField]
-    SoundEffector jumpSound;
-
     private new Transform camera;
     private Vector2 rotation;
-    private bool onGround;
 
 	private void Start() {
         Cursor.lockState = CursorLockMode.Locked;

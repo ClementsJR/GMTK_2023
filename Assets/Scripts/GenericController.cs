@@ -25,6 +25,12 @@ public class GenericController : MonoBehaviour {
     [SerializeField]
     protected HealthSystem healthSystem;
 
+    [Header("Audio")]
+    [SerializeField]
+    protected SoundEffector jumpSound;
+
+    protected bool onGround = false;
+
     protected bool CheckIfGrounded() {
         return (Physics.Raycast(feet.position, Vector3.down, out RaycastHit hit, groundedMaxDistance));
     }

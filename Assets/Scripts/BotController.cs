@@ -11,6 +11,8 @@ public class BotController : GenericController {
     float maxFireDistance = 100f;
     [SerializeField][Range(0f, 1f)]
     float patrolChance = 0.1f;
+    [SerializeField][Range(0f, 1f)]
+    float jumpChance = 0.01f;
     [SerializeField]
     float maxPatrolDistance = 50f;
     [SerializeField]
@@ -34,6 +36,7 @@ public class BotController : GenericController {
     Transform currentTarget;
     BotState state;
     float timeSinceEnemySeen;
+    float jumpCooldown;
 
     private void Start() {
         enemies = new List<Transform>();
@@ -65,16 +68,19 @@ public class BotController : GenericController {
 
         if (state == BotState.Fight) {
             float distanceTo = Vector3.Distance(transform.position, currentTarget.position);
-            if (distanceTo > 30f) ApproachTarget();
-            if (distanceTo < 10f) PullAwayFromTarget();
+            if (distanceTo > 30f) UpdateMovement(Vector3.forward);
+            if (distanceTo < 10f) UpdateMovement(Vector3.back);
         }
 
         if (state == BotState.Retreat) {
-            PullAwayFromTarget();
+            UpdateMovement(-Vector3.forward);
 		}
     }
 
 	void Update() {
+        onGround = CheckIfGrounded();
+        if (jumpCooldown > 0f) jumpCooldown -= Time.deltaTime;
+
         switch(state) {
         case BotState.Camp:
             HandleCamp();
@@ -159,15 +165,23 @@ public class BotController : GenericController {
         cornerDirection.y = 0f;
         cornerDirection.Normalize();
         float angle = Vector3.Angle(transform.forward, cornerDirection);
-        if (angle < 1f)
-            ApproachTarget();
+        if (angle < 1f) {
+            UpdateMovement(Vector3.forward);
+            float jumpRoll = Random.Range(0f, 1f);
+            if (jumpRoll <= jumpChance)
+                JumpAt(currentPatrolCorner);
+		}
 	}
 
     void HandleFight() {
+        float jumpRoll = Random.Range(0f, 1f);
+
         if (healthSystem.HealthPercent() < startRetreatLimit) {
             state = BotState.Retreat;
         } else if (visibleEnemies.Contains(currentTarget)) {
             Face(currentTarget.position);
+            if (onGround && (DirectionTo(currentTarget).y > fireAngleLimit || jumpRoll <= jumpChance))
+                JumpAt(currentTarget);
             if (gun.CanFire()) {
                 CheckFire();
             }
@@ -205,23 +219,34 @@ public class BotController : GenericController {
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * lookSpeed);
     }
 
-    void ApproachTarget() {
-        Vector3 movement = Vector3.forward * moveSpeed;
-        movement = transform.TransformDirection(movement);
-        movement.y = physicsBody.velocity.y;
-        physicsBody.velocity = movement;
-    }
+    void UpdateMovement(Vector3 moveDir) {
+        if (!onGround) return;
 
-    void PullAwayFromTarget() {
-        Vector3 movement = -Vector3.forward * moveSpeed;
-        movement = transform.TransformDirection(movement);
-        movement.y = physicsBody.velocity.y;
-        physicsBody.velocity = movement;
-    }
+        moveDir *= moveSpeed;
+        moveDir = transform.TransformDirection(moveDir);
+        moveDir.y = physicsBody.velocity.y;
+        physicsBody.velocity = moveDir;
+	}
 
     void StrafeTarget() {
 
 	}
+
+    void JumpAt(Transform target) {
+        JumpAt(target.position);
+    }
+
+    void JumpAt(Vector3 target) {
+        if (!onGround) return;
+
+        //Vector3 laterals = DirectionTo(target).normalized;
+        Vector3 jump = (Vector3.up + Vector3.forward).normalized * jumpForce;
+        physicsBody.AddForce(jump);
+        jumpSound.Play();
+
+        onGround = false;
+        jumpCooldown = Random.Range(1f, 3f);
+    }
 
     Vector3 DirectionTo(Transform enemy) {
         return DirectionTo(enemy.position);
